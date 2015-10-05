@@ -10,9 +10,9 @@
   ],
   "license": "BSD",
   "support": {
-    "issues": "https://github.com/harryzheng0907/yii2-restful-api/issues",
-    "wiki": "https://github.com/harryzheng0907/yii2-restful-api/wiki",
-    "source": "https://github.com/harryzheng0907/yii2-restful-api"
+    "issues": "https://github.com/harryzheng0907/yii2-rest/issues",
+    "wiki": "https://github.com/harryzheng0907/yii2-rest/wiki",
+    "source": "https://github.com/harryzheng0907/yii2-rest"
   },
   "authors": [
     {
