@@ -14,7 +14,7 @@ http://url/users?expand=addresses,friends.addresses&expand-fields=addresses.phon
 ```
 3.允许通过子资源排序
 ```
-http://url/users?sort=addresses.phone DESC
+http://url/users?sort=addresses.phone DESC,id ASC
 ```
 4.允许为子资源的表设置别名（防止两个不同的子资源取同一张表时的命名冲突）
 ```
@@ -29,11 +29,11 @@ class User extends ActiveRecord
     
     public function getMainAddresses()
     {
-        return $this->hasMany(Address::className(), ['user_id' => 'id'],'main_addresses');
+        return $this->hasMany(Address::className(), ['user_id' => 'id'],'mainAddresses');
     }
     public function getOtherAddresses()
     {
-        return $this->hasMany(Address::className(), ['user_id' => 'id'],'other_addresses');
+        return $this->hasMany(Address::className(), ['user_id' => 'id'],'otherAddresses');
     }
 }
 ```
@@ -96,3 +96,44 @@ class UserController extends \app\controllers\ActiveController {
 } 
 ```
 4.完成
+
+搜索方式
+------------
+```
+EQUAL:http://url/users?username=EQUAL_a  // username = 'a'
+NOTEQUAL:http://url/users?username=NOTEQUAL_a  // username != 'a'
+NULL:http://url/users?username=NULL_  // username IS NULL
+LIKE:http://url/users?username=LIKE_a  //username LIKE '%a%'
+LLIKE:http://url/users?username=LLIKE_a  //username LIKE '%a'
+RLIKE:http://url/users?username=RLIKE_a  //username LIKE 'a%'
+IN:http://url/users?username=IN_a,b,c  //username IN ('a','b','c')
+NOTIN:http://url/users?username=NOTIN_a,b,c  //username NOT IN ('a','b','c')
+MIN:http://url/users?age_min=MIN_10  // age >= 10
+MAX:http://url/users?age_max=Max_60  //age <= 60
+RANGE:http://url/users?birthdate=RANGE_2015-03  //birthdate<=2015-03-31 AND birthdate >= 2015-03-01
+```
+
+Tips
+------------
+1. 子资源的表的别名，必须与子资源的名称一致
+```
+use harryzheng0907\rest\ActiveRecord;
+
+class User extends ActiveRecord
+{
+    public static function tableName()
+    {
+        return 'user';
+    }
+    
+    public function getMainAddresses()
+    {
+        return $this->hasMany(Address::className(), ['user_id' => 'id'],'mainAddresses');
+    }
+    public function getOtherAddresses()
+    {
+        return $this->hasMany(Address::className(), ['user_id' => 'id'],'otherAddresses');
+    }
+}
+```
+2.设置排序时，DESC/ASC不可省略
