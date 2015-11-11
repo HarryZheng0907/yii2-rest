@@ -83,6 +83,7 @@ class CreateQueryHelper {
         foreach ($pairs as $pair) {
             if($pair == '')continue;
             $nv = explode("=", $pair);
+            if(count($nv) != 2) continue;
             $name = urldecode($nv[0]);
             $value = urldecode($nv[1]);
             if (!in_array($name, $ignore)) {
